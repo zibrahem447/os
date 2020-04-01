@@ -1,0 +1,40 @@
+# os
+// C program to illustrate use of fork() & 
+// exec() system call for process creation 
+#include <stdio.h> 
+#include <sys/types.h> 
+#include <unistd.h> 
+#include <stdlib.h> 
+#include <errno.h> 
+#include <sys/wait.h> 
+
+int main(){ 
+pid_t pid; 
+int ret = 1; 
+int status; 
+pid = fork(); 
+if (pid == -1){ 
+
+	// pid == -1 means error occured 
+	printf("can't fork, error occured\n"); 
+	exit(EXIT_FAILURE); 
+} 
+else if (pid == 0){ 
+	printf("child process, pid = %u\n",getpid()); 
+	char * argv_list[] = {"ls","-lart","/home",NULL}; 
+	execv("ls",argv_list); 
+	exit(0); 
+} 
+else{ 
+
+	for(int i=0; i<10; i++)
+	{
+	    	printf("hello here \n"); 
+
+	}
+	printf("parent process, pid = %u\n",getppid()); 
+
+	exit(0); 
+} 
+return 0; 
+} 
